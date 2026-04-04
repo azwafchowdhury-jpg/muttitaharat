@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MuttiTaharat 💀 Official Betting</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Teko:wght@400;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #060608;
+    --bg2: #0e0e14;
+    --bg3: #14141e;
+    --green: #00ff41;
+    --gold: #ffd200;
+    --red: #ff2233;
+    --red2: #cc0011;
+    --white: #f0f0f0;
+    --muted: #888;
+    --border: #222233;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* TICKER */
+  .ticker-wrap {
+    background: var(--red2);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 6px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--gold);
+  }
+  .ticker-content {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+    font-family: 'Teko', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+  @keyframes ticker { from { transform: translateX(100vw); } to { transform: translateX(-100%); } }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(180deg, #0a0a12 0%, #060608 100%);
+    border-bottom: 3px solid var(--gold);
+    padding: 16px 20px 12px;
+    text-align: center;
+    position: relative;
+  }
+  .site-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 10vw, 80px);
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-shadow: 0 0 30px rgba(255,210,0,0.4), 0 2px 0 #a08000;
+    line-height: 1;
+  }
+  .site-name span { color: var(--red); }
+  .tagline {
+    font-family: 'Teko', sans-serif;
+    font-size: 16px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--red2);
+    color: #fff;
+    font-family: 'Teko', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-top: 8px;
+  }
+  .live-dot {
+    width: 7px; height: 7px;
+    background: #fff;
+    border-radius: 50%;
+    animation: blink 1s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* USER BAR */
+  #userBar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .balance-display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--green);
+    letter-spacing: 2px;
+  }
+  .balance-display span { color: var(--muted); font-size: 14px; font-family: 'Barlow Condensed'; }
+  .user-name-display {
+    font-family: 'Teko', sans-serif;
+    font-size: 18px;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+  .admin-btn-small {
+    background: none;
+    border: 1px solid #333;
+    color: var(--muted);
+    font-family: 'Teko', sans-serif;
+    font-size: 13px;
+    padding: 4px 10px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+  .admin-btn-small:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* MAIN LAYOUT */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* TAHARAT SECTION */
+  .taharat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--red);
+    border-radius: 4px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .taharat-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 4px;
+    border: 2px solid var(--red);
+    object-fit: cover;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .taharat-photo img { width: 100%; height: 100%; object-fit: cover; display: none; }
+  .taharat-info { flex: 1; }
+  .taharat-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--white);
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+  .taharat-sub {
+    font-family: 'Teko', sans-serif;
+    color: var(--muted);
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .taharat-stats {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .stat-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: center;
+    min-width: 80px;
+  }
+  .stat-box .val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-box .lbl {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'Teko', sans-serif;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+
+  /* BET PANEL */
+  .bet-panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--green);
+    border-radius: 4px;
+    padding: 20px;
+  }
+
+  .event-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .event-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'Teko', sans-serif;
+    font-size: 17px;
+    letter-spacing: 1px;
+    padding: 12px 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    border-radius: 2px;
+  }
+  .event-btn:hover { border-color: var(--green); color: var(--green); }
+  .event-btn.selected { background: rgba(0,255,65,0.1); border-color: var(--green); color: var(--green); }
+  .event-btn .e-emoji { font-size: 20px; display: block; margin-bottom: 2px; }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .time-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'Teko', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    padding: 10px 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    border-radius: 2px;
+  }
+  .time-btn:hover { border-color: var(--gold); }
+  .time-btn.selected { background: rgba(255,210,0,0.1); border-color: var(--gold); color: var(--gold); }
+  .time-btn .mult { font-size: 20px; color: var(--gold); display: block; font-family: 'Bebas Neue'; }
+  .time-btn .t-label { font-size: 13px; color: var(--muted); display: block; }
+
+  .wager-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .wager-input {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    padding: 10px 14px;
+    letter-spacing: 2px;
+    outline: none;
+    border-radius: 2px;
+    transition: border 0.2s;
+  }
+  .wager-input:focus { border-color: var(--green); }
+  .quick-bets { display: flex; gap: 6px; flex-wrap: wrap; }
+  .quick-bet {
+    background: var(--bg3);
+    border: 1px solid #333;
+    color: var(--muted);
+    font-family: 'Teko', sans-serif;
+    font-size: 14px;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+    letter-spacing: 1px;
+  }
+  .quick-bet:hover { border-color: var(--green); color: var(--green); }
+
+  .bet-summary {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    font-family: 'Teko', sans-serif;
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+    display: none;
+  }
+  .bet-summary.visible { display: block; }
+  .bet-summary .potential { color: var(--green); font-family: 'Bebas Neue'; font-size: 22px; }
+
+  .place-btn {
+    width: 100%;
+    background: var(--green);
+    color: #000;
+    border: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-radius: 2px;
+  }
+  .place-btn:hover { background: #00cc33; transform: translateY(-1px); }
+  .place-btn:disabled { background: #333; color: #666; cursor: not-allowed; transform: none; }
+
+  /* ACTIVE BETS */
+  .active-bets-panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    border-radius: 4px;
+    padding: 20px;
+  }
+
+  .bet-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bet-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--gold);
+  }
+  .bet-card.won::before { background: var(--green); }
+  .bet-card.lost::before { background: var(--red); }
+  .bet-card.lost { opacity: 0.5; }
+
+  .bet-card-event { font-family: 'Teko', sans-serif; font-size: 18px; flex: 1; }
+  .bet-card-event .ev-name { color: var(--white); letter-spacing: 1px; }
+  .bet-card-event .ev-user { color: var(--muted); font-size: 13px; }
+  .bet-countdown {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--gold);
+    min-width: 60px;
+    text-align: right;
+  }
+  .bet-countdown.urgent { color: var(--red); animation: pulse 0.5s infinite alternate; }
+  @keyframes pulse { from{opacity:1} to{opacity:0.5} }
+  .bet-tag {
+    font-family: 'Teko', sans-serif;
+    font-size: 13px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .bet-tag.active { background: rgba(255,210,0,0.15); color: var(--gold); border: 1px solid rgba(255,210,0,0.3); }
+  .bet-tag.won { background: rgba(0,255,65,0.15); color: var(--green); border: 1px solid rgba(0,255,65,0.3); }
+  .bet-tag.lost { background: rgba(255,34,51,0.15); color: var(--red); border: 1px solid rgba(255,34,51,0.3); }
+  .bet-amounts { text-align: right; }
+  .bet-wager { font-family: 'Teko', sans-serif; font-size: 14px; color: var(--muted); }
+  .bet-win { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--green); }
+
+  /* LEADERBOARD */
+  .leaderboard-panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--red);
+    border-radius: 4px;
+    padding: 20px;
+  }
+  .lb-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    margin-bottom: 6px;
+  }
+  .lb-rank {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--muted);
+    min-width: 30px;
+  }
+  .lb-rank.top { color: var(--gold); }
+  .lb-name { font-family: 'Teko', sans-serif; font-size: 18px; flex: 1; letter-spacing: 1px; }
+  .lb-taka { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--green); }
+
+  /* FEED */
+  .feed-panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+  }
+  .feed-item {
+    font-family: 'Teko', sans-serif;
+    font-size: 15px;
+    color: var(--muted);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.5px;
+  }
+  .feed-item:last-child { border-bottom: none; }
+  .feed-item .feed-time { color: #555; font-size: 12px; margin-left: 8px; }
+
+  /* MODALS */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    border-radius: 4px;
+    padding: 28px;
+    max-width: 400px;
+    width: 100%;
+  }
+  .modal h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .modal p { color: var(--muted); font-family: 'Teko', sans-serif; font-size: 16px; margin-bottom: 16px; }
+  .modal input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    padding: 12px 14px;
+    outline: none;
+    border-radius: 2px;
+    margin-bottom: 12px;
+    transition: border 0.2s;
+  }
+  .modal input:focus { border-color: var(--gold); }
+  .modal-btn {
+    width: 100%;
+    background: var(--gold);
+    color: #000;
+    border: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 3px;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+  }
+  .modal-btn:hover { background: #e6bd00; }
+
+  /* ADMIN PANEL */
+  .admin-panel {
+    background: var(--bg2);
+    border: 2px solid var(--red);
+    border-radius: 4px;
+    padding: 20px;
+    display: none;
+  }
+  .admin-panel.open { display: block; }
+  .admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .resolve-btn {
+    background: var(--red2);
+    border: 1px solid var(--red);
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    padding: 14px 8px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .resolve-btn:hover { background: var(--red); transform: scale(1.02); }
+  .reset-btn {
+    grid-column: span 2;
+    background: #1a1a1a;
+    border: 1px solid #444;
+    color: var(--muted);
+    font-family: 'Teko', sans-serif;
+    font-size: 15px;
+    letter-spacing: 2px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+  }
+  .reset-btn:hover { border-color: var(--red); color: var(--red); }
+
+  /* TOAST */
+  #toast {
+    position: fixed;
+    bottom: 20px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--bg2);
+    border: 1px solid var(--green);
+    color: var(--green);
+    font-family: 'Teko', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    padding: 12px 24px;
+    border-radius: 2px;
+    z-index: 9999;
+    transition: transform 0.3s;
+    max-width: 320px;
+    text-align: center;
+  }
+  #toast.error { border-color: var(--red); color: var(--red); }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* EMPTY STATE */
+  .empty { color: var(--muted); font-family: 'Teko', sans-serif; font-size: 16px; text-align: center; padding: 20px; letter-spacing: 1px; }
+
+  @media (max-width: 520px) {
+    .time-grid { grid-template-columns: repeat(2, 1fr); }
+    .event-grid { grid-template-columns: 1fr; }
+    .admin-grid { grid-template-columns: 1fr; }
+    .reset-btn { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <span class="ticker-content" id="tickerText">🎰 WELCOME TO MUTTITAHARAT — THE OFFICIAL TAHARAT PREDICTION MARKET 💀 BET WISELY. BET OFTEN. ALLAH FORGIVE US.</span>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="site-name">MUTTI<span>TAHARAT</span></div>
+  <div class="tagline">Official Live Prediction Market · Est. 2025</div>
+  <div><span class="live-badge"><span class="live-dot"></span>LIVE BETTING OPEN</span></div>
+</header>
+
+<!-- USER BAR -->
+<div id="userBar" style="display:none">
+  <div>
+    <div class="user-name-display" id="userNameDisplay"></div>
+    <div class="balance-display">৳<span id="balanceDisplay">0</span> <span>Taka</span></div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="admin-btn-small" onclick="toggleAdmin()">⚙ Admin</button>
+    <button class="admin-btn-small" onclick="logout()">← Logout</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- TAHARAT CARD -->
+  <div class="taharat-card">
+    <div class="taharat-photo" id="taharatPhoto">🤡</div>
+    <div class="taharat-info">
+      <div class="taharat-name">TAHARAT</div>
+      <div class="taharat-sub">Subject of Study · Certified Menace</div>
+      <div class="taharat-stats">
+        <div class="stat-box">
+          <div class="val" id="totalBetsCount">0</div>
+          <div class="lbl">Total Bets</div>
+        </div>
+        <div class="stat-box">
+          <div class="val" id="activeBetsCount">0</div>
+          <div class="lbl">Active Now</div>
+        </div>
+        <div class="stat-box">
+          <div class="val" id="totalTakaInPlay">0</div>
+          <div class="lbl">৳ In Play</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div class="admin-panel" id="adminPanel">
+    <div class="section-header" style="color:var(--red)">⚠ ADMIN PANEL — IT HAPPENED BUTTONS</div>
+    <div style="font-family:'Teko',sans-serif;color:var(--muted);font-size:14px;margin-bottom:4px;letter-spacing:1px">Press when Taharat says the thing. All valid bets pay out instantly.</div>
+    <div class="admin-grid" id="adminGrid"></div>
+  </div>
+
+  <!-- BETTING PANEL -->
+  <div class="bet-panel" id="betPanelOuter" style="display:none">
+    <div class="section-header">🎰 PLACE A BET</div>
+
+    <div style="font-family:'Teko',sans-serif;font-size:14px;color:var(--muted);letter-spacing:1px;margin-bottom:8px">SELECT EVENT</div>
+    <div class="event-grid" id="eventGrid"></div>
+
+    <div style="font-family:'Teko',sans-serif;font-size:14px;color:var(--muted);letter-spacing:1px;margin-bottom:8px">SELECT TIME WINDOW</div>
+    <div class="time-grid" id="timeGrid"></div>
+
+    <div style="font-family:'Teko',sans-serif;font-size:14px;color:var(--muted);letter-spacing:1px;margin-bottom:8px">WAGER AMOUNT (TAKA)</div>
+    <div class="wager-row">
+      <input type="number" class="wager-input" id="wagerInput" placeholder="0" min="1" oninput="updateSummary()"/>
+    </div>
+    <div class="quick-bets">
+      <button class="quick-bet" onclick="setWager(50)">৳50</button>
+      <button class="quick-bet" onclick="setWager(100)">৳100</button>
+      <button class="quick-bet" onclick="setWager(200)">৳200</button>
+      <button class="quick-bet" onclick="setWager(500)">৳500</button>
+      <button class="quick-bet" onclick="setWagerAll()">ALL IN 💀</button>
+    </div>
+
+    <div class="bet-summary" id="betSummary"></div>
+
+    <button class="place-btn" id="placeBetBtn" onclick="placeBet()">PLACE BET</button>
+  </div>
+
+  <!-- ACTIVE BETS -->
+  <div class="active-bets-panel">
+    <div class="section-header">⏱ ACTIVE BETS</div>
+    <div id="betsContainer"><div class="empty">No bets placed yet. Be the first.</div></div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div class="leaderboard-panel">
+    <div class="section-header">🏆 LEADERBOARD</div>
+    <div id="leaderboardContainer"><div class="empty">No players yet.</div></div>
+  </div>
+
+  <!-- LIVE FEED -->
+  <div class="feed-panel">
+    <div class="section-header">📡 LIVE FEED</div>
+    <div id="feedContainer"><div class="empty">Waiting for activity...</div></div>
+  </div>
+
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <h2>MUTTITAHARAT</h2>
+    <p>Enter your name to join. You start with ৳1000 Taka. May Allah have mercy on your taka.</p>
+    <input type="text" id="nameInput" placeholder="Your nickname..." maxlength="20" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="modal-btn" onclick="doLogin()">JOIN THE MADNESS</button>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN MODAL -->
+<div class="modal-overlay" id="adminModal" style="display:none">
+  <div class="modal" style="border-top-color:var(--red)">
+    <h2 style="color:var(--red)">ADMIN ACCESS</h2>
+    <p>Enter the admin password.</p>
+    <input type="password" id="adminPassInput" placeholder="Password..." onkeydown="if(event.key==='Enter')doAdminLogin()"/>
+    <button class="modal-btn" style="background:var(--red)" onclick="doAdminLogin()">ENTER</button>
+    <button onclick="closeAdminModal()" style="width:100%;background:none;border:none;color:var(--muted);font-family:'Teko',sans-serif;font-size:16px;margin-top:8px;cursor:pointer">Cancel</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+let state = { users: {}, bets: [], events: [], timeWindows: [], feed: [] };
+let currentUser = null;
+let isAdmin = false;
+let selectedEvent = null;
+let selectedTimeWindow = null;
+let pollInterval = null;
+
+// ---- INIT ----
+window.onload = () => {
+  const saved = localStorage.getItem('mtUser');
+  if (saved) {
+    currentUser = saved;
+    document.getElementById('loginModal').style.display = 'none';
+    document.getElementById('userBar').style.display = '';
+    document.getElementById('betPanelOuter').style.display = '';
+    document.getElementById('userNameDisplay').textContent = currentUser;
+  }
+  fetchState();
+  pollInterval = setInterval(() => { fetchState(); fetch('/api/tick', {method:'POST'}); }, 3000);
+};
+
+// ---- API ----
+async function fetchState() {
+  try {
+    const r = await fetch('/api/state');
+    state = await r.json();
+    render();
+  } catch(e) {}
+}
+
+async function doLogin() {
+  const name = document.getElementById('nameInput').value.trim();
+  if (!name) return showToast('Enter a name', true);
+  const r = await fetch('/api/register', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name}) });
+  const d = await r.json();
+  if (!d.success) return showToast(d.error, true);
+  currentUser = name;
+  localStorage.setItem('mtUser', name);
+  document.getElementById('loginModal').style.display = 'none';
+  document.getElementById('userBar').style.display = '';
+  document.getElementById('betPanelOuter').style.display = '';
+  document.getElementById('userNameDisplay').textContent = currentUser;
+  fetchState();
+  showToast(`Welcome ${name}! ৳1000 Taka loaded 💰`);
+}
+
+function logout() {
+  currentUser = null;
+  isAdmin = false;
+  localStorage.removeItem('mtUser');
+  document.getElementById('loginModal').style.display = '';
+  document.getElementById('userBar').style.display = 'none';
+  document.getElementById('betPanelOuter').style.display = 'none';
+  document.getElementById('adminPanel').classList.remove('open');
+}
+
+function toggleAdmin() {
+  if (isAdmin) {
+    isAdmin = false;
+    document.getElementById('adminPanel').classList.remove('open');
+  } else {
+    document.getElementById('adminModal').style.display = '';
+  }
+}
+
+function doAdminLogin() {
+  const pass = document.getElementById('adminPassInput').value;
+  if (pass === 'mutti123') {
+    isAdmin = true;
+    document.getElementById('adminModal').style.display = 'none';
+    document.getElementById('adminPanel').classList.add('open');
+    document.getElementById('adminPassInput').value = '';
+    showToast('Admin access granted 🔓');
+    renderAdmin();
+  } else {
+    showToast('Wrong password 💀', true);
+  }
+}
+
+function closeAdminModal() {
+  document.getElementById('adminModal').style.display = 'none';
+  document.getElementById('adminPassInput').value = '';
+}
+
+async function resolveEvent(eventId, eventName) {
+  if (!confirm(`IT HAPPENED: "${eventName}"?\n\nThis will pay out all valid bets.`)) return;
+  const r = await fetch('/api/resolve', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({password:'mutti123', eventId}) });
+  const d = await r.json();
+  if (d.success) {
+    showToast(`💀 RESOLVED! ${d.winners} winners paid out`);
+    fetchState();
+  } else {
+    showToast(d.error, true);
+  }
+}
+
+async function resetAll() {
+  if (!confirm('Reset ALL bets and restore everyone to ৳1000?')) return;
+  const r = await fetch('/api/reset', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({password:'mutti123'}) });
+  const d = await r.json();
+  if (d.success) { showToast('Reset done ✅'); fetchState(); }
+}
+
+// ---- BET PLACING ----
+function selectEvent(id) {
+  selectedEvent = id;
+  document.querySelectorAll('.event-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('evt-' + id).classList.add('selected');
+  updateSummary();
+}
+
+function selectTime(idx) {
+  selectedTimeWindow = idx;
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('tw-' + idx).classList.add('selected');
+  updateSummary();
+}
+
+function setWager(amount) {
+  document.getElementById('wagerInput').value = amount;
+  updateSummary();
+}
+
+function setWagerAll() {
+  if (!currentUser || !state.users[currentUser]) return;
+  document.getElementById('wagerInput').value = state.users[currentUser].taka;
+  updateSummary();
+}
+
+function updateSummary() {
+  const summary = document.getElementById('betSummary');
+  const wager = parseInt(document.getElementById('wagerInput').value) || 0;
+  if (!selectedEvent || selectedTimeWindow === null || wager <= 0) {
+    summary.classList.remove('visible');
+    return;
+  }
+  const event = state.events.find(e => e.id === selectedEvent);
+  const tw = state.timeWindows[selectedTimeWindow];
+  if (!event || !tw) return;
+  const potential = Math.floor(wager * tw.multiplier);
+  summary.innerHTML = `Betting ৳${wager} on <b style="color:var(--white)">${event.emoji} ${event.name}</b> within <b style="color:var(--gold)">${tw.label}</b><br>
+  If right: <span class="potential">৳${potential}</span> &nbsp;·&nbsp; If wrong: <span style="color:var(--red)">-৳${wager}</span>`;
+  summary.classList.add('visible');
+}
+
+async function placeBet() {
+  if (!currentUser) return showToast('Login first', true);
+  if (!selectedEvent) return showToast('Pick an event', true);
+  if (selectedTimeWindow === null) return showToast('Pick a time window', true);
+  const wager = parseInt(document.getElementById('wagerInput').value);
+  if (!wager || wager <= 0) return showToast('Enter a wager amount', true);
+
+  const btn = document.getElementById('placeBetBtn');
+  btn.disabled = true;
+  btn.textContent = 'PLACING...';
+
+  const r = await fetch('/api/bet', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ userName: currentUser, eventId: selectedEvent, timeWindowIndex: selectedTimeWindow, wager })
+  });
+  const d = await r.json();
+
+  btn.disabled = false;
+  btn.textContent = 'PLACE BET';
+
+  if (d.success) {
+    showToast(`Bet placed! ৳${wager} on ${state.events.find(e=>e.id===selectedEvent)?.name} 🎰`);
+    document.getElementById('wagerInput').value = '';
+    document.getElementById('betSummary').classList.remove('visible');
+    fetchState();
+  } else {
+    showToast(d.error || 'Error placing bet', true);
+  }
+}
+
+// ---- RENDER ----
+function render() {
+  renderEvents();
+  renderTimeWindows();
+  renderBets();
+  renderLeaderboard();
+  renderFeed();
+  renderStats();
+  if (isAdmin) renderAdmin();
+  updateUserBalance();
+}
+
+function renderEvents() {
+  const grid = document.getElementById('eventGrid');
+  if (!state.events.length) return;
+  grid.innerHTML = state.events.map(e => `
+    <button class="event-btn${selectedEvent===e.id?' selected':''}" id="evt-${e.id}" onclick="selectEvent('${e.id}')">
+      <span class="e-emoji">${e.emoji}</span>${e.name}
+    </button>`).join('');
+}
+
+function renderTimeWindows() {
+  const grid = document.getElementById('timeGrid');
+  if (!state.timeWindows.length) return;
+  grid.innerHTML = state.timeWindows.map((tw, i) => `
+    <button class="time-btn${selectedTimeWindow===i?' selected':''}" id="tw-${i}" onclick="selectTime(${i})">
+      <span class="mult">${tw.multiplier}x</span>
+      <span class="t-label">${tw.label}</span>
+    </button>`).join('');
+}
+
+function renderBets() {
+  const container = document.getElementById('betsContainer');
+  const bets = [...state.bets].reverse();
+  if (!bets.length) { container.innerHTML = '<div class="empty">No bets placed yet. Be the first.</div>'; return; }
+  const now = Date.now();
+  container.innerHTML = bets.map(bet => {
+    const remaining = bet.expiresAt - now;
+    const isUrgent = remaining < 60000 && remaining > 0;
+    let countdownStr = '';
+    if (bet.status === 'active') {
+      if (remaining <= 0) countdownStr = 'EXPIRED';
+      else {
+        const m = Math.floor(remaining/60000);
+        const s = Math.floor((remaining%60000)/1000);
+        countdownStr = `${m}:${s.toString().padStart(2,'0')}`;
+      }
+    } else {
+      countdownStr = bet.status === 'won' ? '✓' : '✗';
+    }
+    return `<div class="bet-card ${bet.status}">
+      <div class="bet-card-event">
+        <div class="ev-name">${bet.eventEmoji} ${bet.eventName}</div>
+        <div class="ev-user">${bet.userName} · ${bet.timeWindowLabel} · ${bet.multiplier}x</div>
+      </div>
+      <div>
+        <div class="bet-tag ${bet.status}">${bet.status.toUpperCase()}</div>
+      </div>
+      <div class="bet-amounts">
+        <div class="bet-wager">৳${bet.wager}</div>
+        <div class="bet-win">→ ৳${bet.potentialWin}</div>
+      </div>
+      <div class="bet-countdown${isUrgent?' urgent':''}">${countdownStr}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderLeaderboard() {
+  const container = document.getElementById('leaderboardContainer');
+  const users = Object.entries(state.users).sort((a,b) => b[1].taka - a[1].taka);
+  if (!users.length) { container.innerHTML = '<div class="empty">No players yet.</div>'; return; }
+  container.innerHTML = users.map(([name, data], i) => `
+    <div class="lb-row">
+      <div class="lb-rank ${i===0?'top':''}">${i===0?'👑':i+1}</div>
+      <div class="lb-name">${name}${name===currentUser?' <span style="color:var(--muted);font-size:13px">(you)</span>':''}</div>
+      <div class="lb-taka">৳${data.taka}</div>
+    </div>`).join('');
+}
+
+function renderFeed() {
+  const container = document.getElementById('feedContainer');
+  const feed = [...state.feed].reverse();
+  if (!feed.length) { container.innerHTML = '<div class="empty">Waiting for activity...</div>'; return; }
+  container.innerHTML = feed.map(f => {
+    const d = new Date(f.time);
+    const t = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+    return `<div class="feed-item">${f.text}<span class="feed-time">${t}</span></div>`;
+  }).join('');
+}
+
+function renderStats() {
+  const bets = state.bets;
+  document.getElementById('totalBetsCount').textContent = bets.length;
+  document.getElementById('activeBetsCount').textContent = bets.filter(b=>b.status==='active').length;
+  document.getElementById('totalTakaInPlay').textContent = bets.filter(b=>b.status==='active').reduce((s,b)=>s+b.wager,0);
+}
+
+function renderAdmin() {
+  const grid = document.getElementById('adminGrid');
+  if (!state.events.length) return;
+  grid.innerHTML = state.events.map(e => `
+    <button class="resolve-btn" onclick="resolveEvent('${e.id}', '${e.name}')">
+      💀 IT HAPPENED<br>${e.emoji} ${e.name}
+    </button>`).join('') +
+    `<button class="reset-btn" onclick="resetAll()">🔄 RESET ALL BETS + BALANCES</button>`;
+}
+
+function updateUserBalance() {
+  if (!currentUser || !state.users[currentUser]) return;
+  document.getElementById('balanceDisplay').textContent = state.users[currentUser].taka;
+}
+
+// ---- TOAST ----
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = isError ? 'error show' : 'show';
+  setTimeout(() => { t.className = isError ? 'error' : ''; }, 3000);
+}
+</script>
+</body>
+</html>
