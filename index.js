@@ -67,15 +67,21 @@ function memoryStore() {
   };
 }
 
+/*
+ * Vercel's Upstash integration does not use one fixed pair of variable names:
+ * the marketplace integration sets UPSTASH_REDIS_REST_*, while a database
+ * created through the older KV flow sets KV_REST_API_*. Redis.fromEnv() only
+ * recognises the former, so accept either rather than depending on which route
+ * the database happened to be created through.
+ */
+const REST_URL = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+const REST_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+
 function createStore() {
-  if (process.env.UPSTASH_REDIS_REST_URL) return Redis.fromEnv();
-  if (process.env.VERCEL) {
-    throw new Error(
-      'UPSTASH_REDIS_REST_URL is not set. Connect an Upstash Redis database ' +
-        'to this project (Storage tab) — serverless instances cannot share ' +
-        'in-memory state.',
-    );
-  }
+  if (REST_URL && REST_TOKEN) return new Redis({ url: REST_URL, token: REST_TOKEN });
+  // Not thrown at import: that surfaces as an opaque FUNCTION_INVOCATION_FAILED
+  // with nothing to act on. The middleware reports it per request instead.
+  if (process.env.VERCEL) return null;
   return memoryStore();
 }
 
@@ -89,6 +95,17 @@ function loadData() { return state; }
 function saveData(data) { state = data; dirty = true; }
 
 app.use(async (req, res, next) => {
+  if (!redis) {
+    // Name the variables actually present so the fix is obvious from the response.
+    const seen = Object.keys(process.env).filter((k) => /UPSTASH|KV_/.test(k));
+    return res.status(503).json({
+      error:
+        'No Redis configured. Connect an Upstash database to this project, then redeploy.',
+      expected: 'UPSTASH_REDIS_REST_URL + _TOKEN, or KV_REST_API_URL + _TOKEN',
+      found: seen.length ? seen : 'no matching environment variables',
+    });
+  }
+
   try {
     state = (await redis.get(STATE_KEY)) || structuredClone(EMPTY);
   } catch (err) {
