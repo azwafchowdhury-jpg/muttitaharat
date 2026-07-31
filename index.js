@@ -17,6 +17,7 @@ const EVENTS = [
   { id: 'gay', name: 'Gay Ass Joke', emoji: '🌈' },
   { id: 'pedo', name: 'Pedo Joke', emoji: '👶' },
   { id: 'jork', name: "Starts jorkin it due to tutlami", emoji: '👋' },
+  { id: 'furin', name: 'Furin deki luicchami', emoji: '👀' },
 ];
 
 const TIME_WINDOWS = [
@@ -47,7 +48,14 @@ function hash(pw) { return crypto.createHash('sha256').update(pw).digest('hex');
  * handler runs and flushes it before the response goes out, so none of the
  * game logic had to be rewritten to be async.
  */
-/** In-memory stand-in so `npm start` works without Upstash credentials. */
+/**
+ * In-memory stand-in so `npm start` works without Upstash credentials.
+ *
+ * Deliberately refuses to run on Vercel. Each serverless invocation gets its
+ * own instance, so an in-memory store is not shared between them: you register
+ * on one and place a bet on another, which reports "User not found". Failing
+ * outright is far easier to diagnose than state that is silently per-request.
+ */
 function memoryStore() {
   let value = null;
   console.warn('No UPSTASH_REDIS_REST_URL set — using in-memory storage. State will not survive a restart.');
@@ -59,7 +67,19 @@ function memoryStore() {
   };
 }
 
-const redis = process.env.UPSTASH_REDIS_REST_URL ? Redis.fromEnv() : memoryStore();
+function createStore() {
+  if (process.env.UPSTASH_REDIS_REST_URL) return Redis.fromEnv();
+  if (process.env.VERCEL) {
+    throw new Error(
+      'UPSTASH_REDIS_REST_URL is not set. Connect an Upstash Redis database ' +
+        'to this project (Storage tab) — serverless instances cannot share ' +
+        'in-memory state.',
+    );
+  }
+  return memoryStore();
+}
+
+const redis = createStore();
 const EMPTY = { users: {}, bets: [], feed: [], eventLog: [] };
 
 let state = null;
