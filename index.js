@@ -125,7 +125,20 @@ app.get('/api/state', (req, res) => {
   Object.keys(data.users).forEach(u => {
     safeUsers[u] = { taka: data.users[u].taka, purchases: data.users[u].purchases || [] };
   });
-  res.json({ users: safeUsers, bets: data.bets, events: EVENTS, timeWindows: TIME_WINDOWS, feed: data.feed.slice(-15), shopItems: SHOP_ITEMS, eventLog: data.eventLog || [] });
+  /*
+   * Expiry is derived here rather than trusted from stored state. A bet is only
+   * flipped to 'lost' by /api/tick, which is client-driven — so with nobody's
+   * browser open, expired bets keep reporting as 'active' and the board lies.
+   *
+   * Payouts were never affected: /api/resolve re-checks expiresAt before paying
+   * out. This is about the board telling the truth without needing a poller.
+   */
+  const nowTs = Date.now();
+  const bets = data.bets.map((bet) =>
+    bet.status === 'active' && bet.expiresAt <= nowTs ? { ...bet, status: 'lost' } : bet,
+  );
+
+  res.json({ users: safeUsers, bets, events: EVENTS, timeWindows: TIME_WINDOWS, feed: data.feed.slice(-15), shopItems: SHOP_ITEMS, eventLog: data.eventLog || [] });
 });
 
 // Get notifications for a user
